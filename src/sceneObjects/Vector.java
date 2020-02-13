@@ -46,12 +46,13 @@ public class Vector {
 				this.getZ() * other.getX() - this.getX() * other.getZ(),
 				this.getX() * other.getY() - this.getY() * other.getX());
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Vector && ((Vector) obj).getX() == this.getX() && ((Vector) obj).getY() == this.getY() && ((Vector) obj).getZ() == this.getZ();
+		return obj instanceof Vector && ((Vector) obj).getX() == this.getX() && ((Vector) obj).getY() == this.getY()
+				&& ((Vector) obj).getZ() == this.getZ();
 	}
-	
+
 	public boolean equalsDir(Vector v) {
 		return v.getX() / this.getX() == v.getY() / this.getY() && v.getY() / this.getY() == v.getZ() / this.getZ();
 	}

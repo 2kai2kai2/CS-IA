@@ -84,7 +84,7 @@ public class Obj3d {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return obj;
 	}
 }
