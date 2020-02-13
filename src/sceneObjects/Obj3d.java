@@ -47,12 +47,12 @@ public class Obj3d {
 
 	public void addFace(Face face) {
 		this.faces.add(face);
-		System.out.println(face.toString());
 	}
 
 	public static Obj3d newObj(File f) {
 		Obj3d obj = new Obj3d();
 		try {
+			@SuppressWarnings("resource")
 			Scanner s = new Scanner(f);
 			while (s.hasNextLine()) {
 				String line = s.nextLine().strip();
