@@ -49,6 +49,12 @@ public class Obj3d {
 		this.faces.add(face);
 	}
 
+	/**
+	 * Parses an Obj3d from a .obj file.
+	 * 
+	 * @param f The .obj file to parse into an Obj3d object.
+	 * @return An Obj3d object containing the object from the .obj file.
+	 */
 	public static Obj3d newObj(File f) {
 		Obj3d obj = new Obj3d();
 		try {

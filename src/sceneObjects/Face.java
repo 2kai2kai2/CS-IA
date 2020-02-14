@@ -14,6 +14,17 @@ public class Face {
 		return true; // TODO
 	}
 
+	/**
+	 * Triangulates the face into Triangles. This is necessary because the face may
+	 * not be on a single plane and often will not contain simple polygons.
+	 * Triangles should be more simple to find intersects for.
+	 * 
+	 * The method finds which point has the smallest average distance to all other
+	 * points, then draws triangles from all other points to this point. This should
+	 * work in all simple cases if not all cases.
+	 * 
+	 * @return An ArrayList of Triangles that make up this face.
+	 */
 	public ArrayList<Triangle> triangulate() {
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		ArrayList<Double> sumDistance = new ArrayList<Double>();
