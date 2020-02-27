@@ -57,7 +57,6 @@ public class Face {
 				triangles.add(new Triangle(points.get(i), points.get((i + 1) % points.size()), points.get(maxIndex)));
 			}
 		}
-
 		return triangles;
 	}
 

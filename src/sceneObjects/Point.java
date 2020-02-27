@@ -22,7 +22,11 @@ public class Point {
 	public double getZ() {
 		return this.z;
 	}
-
+	
+	public Vector asOriginVector() {
+		return new Vector(x, y, z);
+	}
+	
 	public double distToPoint(Point point) {
 		return Math.sqrt(Math.pow(this.getX() - point.getX(), 2) + Math.pow(this.getY() - point.getY(), 2)
 				+ Math.pow(this.getZ() - point.getZ(), 2));

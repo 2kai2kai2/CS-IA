@@ -5,10 +5,12 @@ public class Vector {
 	private double y;
 	private double z;
 
+	private static final double round = Math.pow(10, 9);
+
 	public Vector(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.x = Math.round(x * round) / round;
+		this.y = Math.round(y * round) / round;
+		this.z = Math.round(z * round) / round;
 	}
 
 	public double getX() {
@@ -23,22 +25,27 @@ public class Vector {
 		return z;
 	}
 
+	public Vector(Point p1, Point p2) {
+		this(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
+	}
+
 	/**
 	 * A Vector from edge from p2 to p1
 	 * 
 	 * @param edge
 	 */
 	public Vector(Edge edge) {
-		this(edge.getP1().getX() - edge.getP2().getX(), edge.getP1().getY() - edge.getP2().getY(),
-				edge.getP1().getZ() - edge.getP2().getZ());
+		this(edge.getP1(), edge.getP2());
 	}
 
 	public double magnitude() {
-		return Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ());
+		double rawVal = Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ());
+		return Math.round(rawVal * round) / round;
 	}
 
 	public double dotProduct(Vector other) {
-		return this.getX() * other.getX() + this.getY() * other.getY() + this.getZ() * other.getZ();
+		double rawVal = this.getX() * other.getX() + this.getY() * other.getY() + this.getZ() * other.getZ();
+		return Math.round(rawVal * round) / round;
 	}
 
 	public Vector crossProduct(Vector other) {
@@ -55,5 +62,15 @@ public class Vector {
 
 	public boolean equalsDir(Vector v) {
 		return v.getX() / this.getX() == v.getY() / this.getY() && v.getY() / this.getY() == v.getZ() / this.getZ();
+	}
+
+	public double angleWithVector(Vector v) {
+		double rawVal = Math.acos(dotProduct(v) / (magnitude() * v.magnitude()));
+		return Math.round(rawVal * round) / round;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ", " + z + ")";
 	}
 }

@@ -34,7 +34,32 @@ public class Ray {
 	}
 
 	public Point triIntersect(Triangle t) {
-		return new Point(1, 1, 1); // TODO
+		Vector vPlane = t.getPoint(0).asOriginVector();
+		Vector vPlaneNormal = t.planeNormal();
+		Vector vLine = getPoint().asOriginVector();
+		Vector vLineDir = getVector();
+
+		if (vLineDir.dotProduct(vPlaneNormal) == 0) { // This means that the line is a part of the plane.
+			//System.out.println("part of plane");
+			return null;
+		}
+
+		double lineScale = (vPlane.dotProduct(vPlaneNormal) - vLine.dotProduct(vPlaneNormal))
+				/ vLineDir.dotProduct(vPlaneNormal);
+
+		if (lineScale < 0) { // The triangle intersect is behind the camera
+			//System.out.println("Behind cam");
+			return null;
+		}
+		Point point = new Point(vLine.getX() + vLineDir.getX() * lineScale, vLine.getY() + vLineDir.getY() * lineScale,
+				vLine.getZ() + vLineDir.getZ() * lineScale);
+		if (t.isPointOnTriangle(point)) {
+			//System.out.println(point);
+			return point;
+		} else { // Point crosses the plane but not through the triangle
+			//System.out.println("Plane not tri");
+			return null;
+		}
 	}
 
 	/**
@@ -53,5 +78,10 @@ public class Ray {
 			}
 		}
 		return intersects;
+	}
+	
+	@Override
+	public String toString() {
+		return origin.toString() + " " + vector.toString();
 	}
 }

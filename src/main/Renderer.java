@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -73,6 +74,7 @@ public class Renderer implements Runnable {
 	}
 
 	public void render(Graphics g) {
+		long timeStart = System.currentTimeMillis();
 		Ray[] rs = rayAngles();
 		BufferedImage img = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
 		if (rs != null) {
@@ -96,15 +98,18 @@ public class Renderer implements Runnable {
 					}
 					// Render the color from the intersect (if exists)
 					if (closest != null) {
+						//System.out.println("whitepixel" + intersects.get(closest).toString());
 						img.setRGB(x, y, closest.pointColor(intersects.get(closest)).getRGB());
 					} else {
-						img.setRGB(x, y, 0);
+						//System.out.println("blackpixel");
+						img.setRGB(x, y, Color.BLACK.getRGB());
 					}
 				}
 			}
 		}
 		// Display and scale up if rendering is scaled down
 		g.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
+		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms.");
 	}
 
 	/**
@@ -119,9 +124,9 @@ public class Renderer implements Runnable {
 		for (int y = 0; y < getCanvasHeight(); y++) {
 			for (int x = 0; x < getCanvasWidth(); x++) {
 				// Calculate the yaw and pitch angles of this ray
-				double yaw = Math.toRadians(cam.getYaw() + cam.getFOV() * (x / getCanvasWidth() - 0.5));
+				double yaw = Math.toRadians(cam.getYaw() + cam.getFOV() * ((double) x / getCanvasWidth() - 0.5));
 				double pitch = Math.toRadians(cam.getPitch()
-						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * (y / getCanvasHeight() - 0.5) - 90);
+						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * ((double) y / getCanvasHeight() - 0.5) - 90);
 				// Find the vector (length 1) of this ray from the angles
 				Vector v = new Vector(Math.acos(yaw), Math.asin(yaw), Math.asin(pitch));
 				// Add vector to its spot
@@ -132,6 +137,10 @@ public class Renderer implements Runnable {
 				}
 			}
 		}
+		/*
+		for (Ray r : rays) {
+			System.out.println(r);
+		}*/
 		return rays;
 	}
 
