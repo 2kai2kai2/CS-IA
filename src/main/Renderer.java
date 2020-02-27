@@ -25,7 +25,7 @@ public class Renderer implements Runnable {
 	private Thread thread;
 
 	private final int FPSCAP = 120;
-	private final double resScale = 0.5; // Resolution scaling
+	private final double resScale = 0.3; // Resolution scaling
 
 	private long lastMS = 0;
 
@@ -77,16 +77,16 @@ public class Renderer implements Runnable {
 		long timeStart = System.currentTimeMillis();
 		Ray[] rs = rayAngles();
 		BufferedImage img = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
+		ArrayList<Triangle> allTris = new ArrayList<Triangle>();
+		for (Obj3d obj : scene.getObjs()) {
+			for (Face face : obj.getFaces()) {
+				allTris.addAll(face.triangulate());
+			}
+		}
 		if (rs != null) {
 			for (int y = 0; y < img.getHeight(); y++) {
 				for (int x = 0; x < img.getWidth(); x++) {
 					Ray pixRay = rs[y * img.getWidth() + x];
-					ArrayList<Triangle> allTris = new ArrayList<Triangle>();
-					for (Obj3d obj : scene.getObjs()) {
-						for (Face face : obj.getFaces()) {
-							allTris.addAll(face.triangulate());
-						}
-					}
 					HashMap<Triangle, Point> intersects = pixRay.allIntersects(allTris);
 					// Find the intersect closest to the camera
 					Triangle closest = null;
@@ -98,10 +98,8 @@ public class Renderer implements Runnable {
 					}
 					// Render the color from the intersect (if exists)
 					if (closest != null) {
-						//System.out.println("whitepixel" + intersects.get(closest).toString());
 						img.setRGB(x, y, closest.pointColor(intersects.get(closest)).getRGB());
 					} else {
-						//System.out.println("blackpixel");
 						img.setRGB(x, y, Color.BLACK.getRGB());
 					}
 				}

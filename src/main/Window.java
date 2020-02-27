@@ -12,8 +12,8 @@ public class Window extends JFrame {
 	public Window() {
 		this.setSize(500, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		c = new DisplayCanvas();
 		s = new Scene();
+		c = new DisplayCanvas(s);
 		r = new Renderer(c, s);
 		this.add(c);
 		this.setVisible(true);

@@ -43,7 +43,15 @@ public class Camera {
 	}
 	
 	public void addPitch(double change) {
-		setYaw(getYaw() + change);
+		setPitch(getPitch() + change);
+	}
+	
+	public void goForward(double distance) {
+		double z = distance * Math.sin(Math.toRadians(this.getPitch() - 90));
+		double h = distance * Math.cos(Math.toRadians(this.getPitch() - 90));
+		double x = h * Math.cos(Math.toRadians(this.getYaw()));
+		double y = h * Math.sin(Math.toRadians(this.getYaw()));
+		this.setLocation(new Point(this.getLocation().getX() + x, this.getLocation().getY() + y, this.getLocation().getZ() + z));
 	}
 
 	public double getFOV() {

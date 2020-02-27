@@ -48,8 +48,8 @@ public class Triangle {
 				Vector p2p1 = new Vector(points[1], points[0]);
 				Vector p2p3 = new Vector(points[1], points[2]);
 				Vector p2p = new Vector(points[1], p);
-				return (0 <= p1p2.angleWithVector(p1p) && p1p2.angleWithVector(p1p) <= p1p2.angleWithVector(p1p3)
-						&& 0 <= p1p3.angleWithVector(p1p) && p1p3.angleWithVector(p1p) <= p1p2.angleWithVector(p1p3));
+				return (0 <= p2p1.angleWithVector(p2p) && p2p1.angleWithVector(p2p) <= p2p1.angleWithVector(p2p3)
+						&& 0 <= p2p3.angleWithVector(p2p) && p2p3.angleWithVector(p2p) <= p2p1.angleWithVector(p2p3));
 			} else {
 				return false;
 			}
