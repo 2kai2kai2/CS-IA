@@ -107,7 +107,7 @@ public class Renderer implements Runnable {
 		}
 		// Display and scale up if rendering is scaled down
 		g.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms.");
+		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Camera Location: " + this.scene.getCamera().getLocation() + " Camera Angle: Yaw=" + this.scene.getCamera().getYaw() + " Pitch=" + this.scene.getCamera().getPitch());
 	}
 
 	/**
@@ -126,7 +126,11 @@ public class Renderer implements Runnable {
 				double pitch = Math.toRadians(cam.getPitch()
 						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * ((double) y / getCanvasHeight() - 0.5) - 90);
 				// Find the vector (length 1) of this ray from the angles
-				Vector v = new Vector(Math.acos(yaw), Math.asin(yaw), Math.asin(pitch));
+				double rz = Math.sin(pitch);
+				double h = Math.cos(pitch);
+				double rx = h * Math.cos(yaw);
+				double ry = h * Math.sin(yaw);
+				Vector v = new Vector(rx, ry, rz);
 				// Add vector to its spot
 				try {
 					rays[y * getCanvasWidth() + x] = new Ray(cam.getLocation(), v);
