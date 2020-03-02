@@ -13,14 +13,30 @@ public class Ray {
 		this.vector = vector;
 	}
 
+	/**
+	 * Gets the point of origin for this Ray
+	 * 
+	 * @return A Point representing the origin of the Ray
+	 */
 	public Point getPoint() {
 		return origin;
 	}
 
+	/**
+	 * Gets a Vector representing the direction of this Ray
+	 * 
+	 * @return A vector representing the direction of this Ray
+	 */
 	public Vector getVector() {
 		return vector;
 	}
 
+	/**
+	 * Checks whether or not a point is in this ray
+	 * 
+	 * @param p The point to check
+	 * @return Whether or not the point is in the ray
+	 */
 	public boolean isPointOnLine(Point p) {
 		double dX = p.getX() - origin.getX();
 		double dY = p.getY() - origin.getY();
@@ -33,6 +49,12 @@ public class Ray {
 				&& dX / vector.getX() >= 0;
 	}
 
+	/**
+	 * Finds the point at which this ray intersects the given triangle
+	 * 
+	 * @param t The Triangle to find the intersection with
+	 * @return The point of intersection, or null if there is none.
+	 */
 	public Point triIntersect(Triangle t) {
 		Vector vPlane = t.getPoint(0).asOriginVector();
 		Vector vPlaneNormal = t.planeNormal();
@@ -75,7 +97,7 @@ public class Ray {
 		}
 		return intersects;
 	}
-	
+
 	@Override
 	public String toString() {
 		return origin.toString() + " " + vector.toString();
