@@ -22,11 +22,22 @@ public class Point {
 	public double getZ() {
 		return this.z;
 	}
-	
+
+	/**
+	 * Represents the point as a Vector from (0, 0, 0) to this point.
+	 * 
+	 * @return A vector representation of this point
+	 */
 	public Vector asOriginVector() {
 		return new Vector(x, y, z);
 	}
-	
+
+	/**
+	 * Gets the distance between this point and a given point
+	 * 
+	 * @param point The given Point to find the distance to
+	 * @return A double representing the distance between the two points
+	 */
 	public double distToPoint(Point point) {
 		return Math.sqrt(Math.pow(this.getX() - point.getX(), 2) + Math.pow(this.getY() - point.getY(), 2)
 				+ Math.pow(this.getZ() - point.getZ(), 2));

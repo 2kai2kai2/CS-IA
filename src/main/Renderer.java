@@ -73,21 +73,44 @@ public class Renderer implements Runnable {
 		}
 	}
 
+	/**
+	 * Renders onto the graphics object based on the Renderer object's variables
+	 * 
+	 * @param g The Graphics object to render the image on
+	 */
 	public void render(Graphics g) {
 		long timeStart = System.currentTimeMillis();
+		// Create the array of Rays to be traced then rendered
+		long rayAnglesStart = System.currentTimeMillis();
 		Ray[] rs = rayAngles();
+		System.out.println("Ray Angles:" + (System.currentTimeMillis() - rayAnglesStart) + "ms.");
+
+		// Setup objects for tracing
 		BufferedImage img = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
 		ArrayList<Triangle> allTris = new ArrayList<Triangle>();
+
+		// Triangulate the faces of the objects in the scene
+		long triStart = System.currentTimeMillis();
 		for (Obj3d obj : scene.getObjs()) {
 			for (Face face : obj.getFaces()) {
 				allTris.addAll(face.triangulate());
 			}
 		}
+		System.out.println("Triangulation:" + (System.currentTimeMillis() - triStart) + "ms.");
+
+		// Ray Tracing
+		long rayTraceStart = System.currentTimeMillis();
+		long interSum = 0;
 		if (rs != null) {
 			for (int y = 0; y < img.getHeight(); y++) {
 				for (int x = 0; x < img.getWidth(); x++) {
 					Ray pixRay = rs[y * img.getWidth() + x];
+
+					// Find all the Triangles and Points at which the ray intersects them
+					long interStart = System.currentTimeMillis();
 					HashMap<Triangle, Point> intersects = pixRay.allIntersects(allTris);
+					interSum += System.currentTimeMillis() - interStart;
+
 					// Find the intersect closest to the camera
 					Triangle closest = null;
 					for (Entry<Triangle, Point> t : intersects.entrySet()) {
@@ -96,6 +119,7 @@ public class Renderer implements Runnable {
 							closest = t.getKey();
 						}
 					}
+
 					// Render the color from the intersect (if exists)
 					if (closest != null) {
 						img.setRGB(x, y, closest.pointColor(intersects.get(closest)).getRGB());
@@ -105,9 +129,16 @@ public class Renderer implements Runnable {
 				}
 			}
 		}
+		System.out.println("Ray Tracing:" + (System.currentTimeMillis() - rayTraceStart) + "ms.");
+		System.out.println("	Intersects:" + interSum + "ms.");
+
 		// Display and scale up if rendering is scaled down
+		long displayStart = System.currentTimeMillis();
 		g.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Camera Location: " + this.scene.getCamera().getLocation() + " Camera Angle: Yaw=" + this.scene.getCamera().getYaw() + " Pitch=" + this.scene.getCamera().getPitch());
+		System.out.println("Display:" + (System.currentTimeMillis() - displayStart) + "ms.");
+		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Camera Location: "
+				+ this.scene.getCamera().getLocation() + " Camera Angle: Yaw=" + this.scene.getCamera().getYaw()
+				+ " Pitch=" + this.scene.getCamera().getPitch());
 	}
 
 	/**
@@ -124,13 +155,16 @@ public class Renderer implements Runnable {
 				// Calculate the yaw and pitch angles of this ray
 				double yaw = Math.toRadians(cam.getYaw() + cam.getFOV() * ((double) x / getCanvasWidth() - 0.5));
 				double pitch = Math.toRadians(cam.getPitch()
-						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * ((double) y / getCanvasHeight() - 0.5) - 90);
+						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * ((double) y / getCanvasHeight() - 0.5)
+						- 90);
+
 				// Find the vector (length 1) of this ray from the angles
 				double rz = Math.sin(pitch);
 				double h = Math.cos(pitch);
 				double rx = h * Math.cos(yaw);
 				double ry = h * Math.sin(yaw);
 				Vector v = new Vector(rx, ry, rz);
+
 				// Add vector to its spot
 				try {
 					rays[y * getCanvasWidth() + x] = new Ray(cam.getLocation(), v);
@@ -139,10 +173,6 @@ public class Renderer implements Runnable {
 				}
 			}
 		}
-		/*
-		for (Ray r : rays) {
-			System.out.println(r);
-		}*/
 		return rays;
 	}
 

@@ -58,6 +58,11 @@ public class Triangle {
 		}
 	}
 
+	/**
+	 * Gets the normal Vector to this plane
+	 * 
+	 * @return The normal Vector
+	 */
 	public Vector planeNormal() {
 		return new Vector(points[0].getX() - points[1].getX(), points[0].getY() - points[1].getY(),
 				points[0].getZ() - points[1].getZ())
