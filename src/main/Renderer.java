@@ -153,10 +153,10 @@ public class Renderer implements Runnable {
 		for (int y = 0; y < getCanvasHeight(); y++) {
 			for (int x = 0; x < getCanvasWidth(); x++) {
 				// Calculate the yaw and pitch angles of this ray
-				double yaw = Math.toRadians(cam.getYaw() + cam.getFOV() * ((double) x / getCanvasWidth() - 0.5));
-				double pitch = Math.toRadians(cam.getPitch()
-						+ (cam.getFOV() * getCanvasHeight() / getCanvasWidth()) * ((double) y / getCanvasHeight() - 0.5)
-						- 90);
+				double yaw = Math.toRadians(cam.getYaw()) + Math.atan((x - getCanvasWidth() / 2.0)
+						/ (getCanvasWidth() / 2.0) * Math.tan(Math.toRadians(cam.getFOV()) / 2));
+				double pitch = Math.toRadians(cam.getPitch() - 90) + Math.atan((y - getCanvasHeight() / 2.0)
+						/ (getCanvasHeight() / 2.0) * Math.tan(Math.toRadians(cam.getFOV()) / 2));
 
 				// Find the vector (length 1) of this ray from the angles
 				double rz = Math.sin(pitch);
