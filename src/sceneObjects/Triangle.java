@@ -24,38 +24,24 @@ public class Triangle {
 	 * @return A boolean of whether it is on the triangle.
 	 */
 	public boolean isPointOnTriangle(Point p) {
-		// 1: If the point is on the same plane as the triangle is - use normal eq of
-		// plane
-		// 2: If all angles are from p1, the angle from p2 to p + p3 to p = p2 to p3
-		// 3: Same as 2 but from another point so that the distance cannot be infinite
-		// despite the angles from p1
+		// 1: If the point is on the same plane as the triangle
+		// 2: Check sum of angles (<=180) between the vectors from the triangle vertexes
+		// and the point.
+		// If the angle is 360, then it is in the triangle, if it is not then it is
+		// outside
+
+		// Check point is on plane
 		Vector vNormal = planeNormal();
 		Vector vPoint = p.asOriginVector();
 		Vector vPlanePoint = getPoint(0).asOriginVector();
-
-		// Check point is on plane
 		if (vPoint.dotProduct(vNormal) == vPlanePoint.dotProduct(vNormal)) {
-			// Angle a = p2-p1-p3; Angle b = p2-p1-p; Angle c = p3-p1-p
-			// If 0 <= b and b <= a and 0 <= c and c <= a then it is in the cone from p1.
-			Vector p1p2 = new Vector(points[0], points[1]);
-			Vector p1p3 = new Vector(points[0], points[2]);
-			Vector p1p = new Vector(points[0], p);
-			if (0 <= p1p2.angleWithVector(p1p) && p1p2.angleWithVector(p1p) <= p1p2.angleWithVector(p1p3)
-					&& 0 <= p1p3.angleWithVector(p1p) && p1p3.angleWithVector(p1p) <= p1p2.angleWithVector(p1p3)) {
-				// Angle a = p1-p2-p3; Angle b = p1-p2-p; Angle c = p3-p2-p
-				// If 0 <= b and b <= a and 0 <= c and c <= a then it is in the cone from p2 and
-				// therefore is in the triangle.
-				Vector p2p1 = new Vector(points[1], points[0]);
-				Vector p2p3 = new Vector(points[1], points[2]);
-				Vector p2p = new Vector(points[1], p);
-				return (0 <= p2p1.angleWithVector(p2p) && p2p1.angleWithVector(p2p) <= p2p1.angleWithVector(p2p3)
-						&& 0 <= p2p3.angleWithVector(p2p) && p2p3.angleWithVector(p2p) <= p2p1.angleWithVector(p2p3));
-			} else {
-				return false;
-			}
-		} else {
+			Vector pToA = new Vector(p, points[0]);
+			Vector pToB = new Vector(p, points[1]);
+			Vector pToC = new Vector(p, points[2]);
+			return Math.abs(pToA.angleWithVector(pToB) + pToB.angleWithVector(pToC) + pToC.angleWithVector(pToA)
+					- Math.PI * 2) < 0.00001;
+		} else
 			return false;
-		}
 	}
 
 	/**

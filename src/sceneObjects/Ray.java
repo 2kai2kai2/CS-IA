@@ -71,6 +71,7 @@ public class Ray {
 		if (lineScale < 0) { // The triangle intersect is behind the camera
 			return null;
 		}
+
 		Point point = new Point(vLine.getX() + vLineDir.getX() * lineScale, vLine.getY() + vLineDir.getY() * lineScale,
 				vLine.getZ() + vLineDir.getZ() * lineScale);
 		if (t.isPointOnTriangle(point)) {

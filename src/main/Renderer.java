@@ -138,7 +138,7 @@ public class Renderer implements Runnable {
 		System.out.println("Display:" + (System.currentTimeMillis() - displayStart) + "ms.");
 		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Camera Location: "
 				+ this.scene.getCamera().getLocation() + " Camera Angle: Yaw=" + this.scene.getCamera().getYaw()
-				+ " Pitch=" + this.scene.getCamera().getPitch());
+				+ " Pitch=" + this.scene.getCamera().getPitch() + "\n");
 	}
 
 	/**
