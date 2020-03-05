@@ -34,7 +34,7 @@ public class Triangle {
 		Vector vNormal = planeNormal();
 		Vector vPoint = p.asOriginVector();
 		Vector vPlanePoint = getPoint(0).asOriginVector();
-		if (vPoint.dotProduct(vNormal) == vPlanePoint.dotProduct(vNormal)) {
+		if (Math.abs(vPoint.dotProduct(vNormal) - vPlanePoint.dotProduct(vNormal)) < 0.00001) {
 			Vector pToA = new Vector(p, points[0]);
 			Vector pToB = new Vector(p, points[1]);
 			Vector pToC = new Vector(p, points[2]);

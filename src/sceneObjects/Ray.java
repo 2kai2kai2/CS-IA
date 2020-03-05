@@ -67,15 +67,14 @@ public class Ray {
 
 		double lineScale = (vPlane.dotProduct(vPlaneNormal) - vLine.dotProduct(vPlaneNormal))
 				/ vLineDir.dotProduct(vPlaneNormal);
-
-		if (lineScale < 0) { // The triangle intersect is behind the camera
-			return null;
-		}
-
 		Point point = new Point(vLine.getX() + vLineDir.getX() * lineScale, vLine.getY() + vLineDir.getY() * lineScale,
 				vLine.getZ() + vLineDir.getZ() * lineScale);
 		if (t.isPointOnTriangle(point)) {
-			return point;
+			// Check if the point is behind the camera
+			if (lineScale < 0) {
+				return null;
+			} else
+				return point;
 		} else { // Point crosses the plane but not through the triangle
 			return null;
 		}

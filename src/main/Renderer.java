@@ -101,6 +101,8 @@ public class Renderer implements Runnable {
 		// Ray Tracing
 		long rayTraceStart = System.currentTimeMillis();
 		long interSum = 0;
+		long closestSum = 0;
+		long colorSum = 0;
 		if (rs != null) {
 			for (int y = 0; y < img.getHeight(); y++) {
 				for (int x = 0; x < img.getWidth(); x++) {
@@ -112,6 +114,7 @@ public class Renderer implements Runnable {
 					interSum += System.currentTimeMillis() - interStart;
 
 					// Find the intersect closest to the camera
+					long closestStart = System.currentTimeMillis();
 					Triangle closest = null;
 					for (Entry<Triangle, Point> t : intersects.entrySet()) {
 						if (closest == null || intersects.get(closest).distToPoint(pixRay.getPoint()) > t.getValue()
@@ -119,18 +122,23 @@ public class Renderer implements Runnable {
 							closest = t.getKey();
 						}
 					}
+					closestSum += System.currentTimeMillis() - closestStart;
 
 					// Render the color from the intersect (if exists)
+					long colorStart = System.currentTimeMillis();
 					if (closest != null) {
 						img.setRGB(x, y, closest.pointColor(intersects.get(closest)).getRGB());
 					} else {
 						img.setRGB(x, y, Color.BLACK.getRGB());
 					}
+					colorStart += System.currentTimeMillis() - colorStart;
 				}
 			}
 		}
 		System.out.println("Ray Tracing:" + (System.currentTimeMillis() - rayTraceStart) + "ms.");
 		System.out.println("	Intersects:" + interSum + "ms.");
+		System.out.println("	Closest Intersect:" + closestSum + "ms.");
+		System.out.println("	Color: " + colorSum + "ms.");
 
 		// Display and scale up if rendering is scaled down
 		long displayStart = System.currentTimeMillis();
