@@ -70,6 +70,31 @@ public class Camera {
 				new Point(this.getLocation().getX() + x, this.getLocation().getY() + y, this.getLocation().getZ() + z));
 	}
 
+	/**
+	 * Moves the camera's location by a given distance right from the direction it
+	 * is facing
+	 * 
+	 * @param distance The distance to move the camera
+	 */
+	public void goRight(double distance) {
+		double z = distance * Math.sin(Math.toRadians(this.getPitch() - 90));
+		double h = distance * Math.cos(Math.toRadians(this.getPitch() - 90));
+		double x = h * Math.cos(Math.toRadians(this.getYaw() + 90));
+		double y = h * Math.sin(Math.toRadians(this.getYaw() + 90));
+		this.setLocation(
+				new Point(this.getLocation().getX() + x, this.getLocation().getY() + y, this.getLocation().getZ() + z));
+	}
+
+	/**
+	 * Moves the camera's location by a given distance up
+	 * 
+	 * @param distance The distance to move the camera
+	 */
+	public void goUp(double distance) {
+		this.setLocation(
+				new Point(this.getLocation().getX(), this.getLocation().getY(), this.getLocation().getZ() - distance));
+	}
+
 	public double getFOV() {
 		return FOV;
 	}
