@@ -45,8 +45,8 @@ public class Ray {
 		// First - The point is on a line represented by the vector
 		// Second - The point is not behind the vector origin (rays are infinite but
 		// have a starting point)
-		return dX / vector.getX() == dY / vector.getY() && dY / vector.getY() == dZ / vector.getZ()
-				&& dX / vector.getX() >= 0;
+		return Math.abs(dX / vector.getX() - dY / vector.getY()) < 0.00001
+				&& Math.abs(dY / vector.getY() - dZ / vector.getZ()) < 0.00001 && dX / vector.getX() >= 0;
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class Ray {
 		Vector vLine = getPoint().asOriginVector();
 		Vector vLineDir = getVector();
 
-		if (vLineDir.dotProduct(vPlaneNormal) == 0) { // This means that the line is a part of the plane.
+		if (Math.abs(vLineDir.dotProduct(vPlaneNormal)) < 0.00001) { // This means that the line is a part of the plane.
 			return null;
 		}
 

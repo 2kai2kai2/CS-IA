@@ -47,9 +47,11 @@ public class Point {
 	public String toString() {
 		return "(" + x + ", " + y + ", " + z + ")";
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof Point && ((Point) o).getX() == this.getX() && ((Point) o).getY() == this.getY() && ((Point) o).getZ() == this.getZ();
+		return o instanceof Point && Math.abs(((Point) o).getX() - this.getX()) < 0.00001
+				&& Math.abs(((Point) o).getY() - this.getY()) < 0.00001
+				&& Math.abs(((Point) o).getZ() - this.getZ()) < 0.00001;
 	}
 }

@@ -5,12 +5,10 @@ public class Vector {
 	private double y;
 	private double z;
 
-	private static final double round = Math.pow(10, 9);
-
 	public Vector(double x, double y, double z) {
-		this.x = Math.round(x * round) / round;
-		this.y = Math.round(y * round) / round;
-		this.z = Math.round(z * round) / round;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	public double getX() {
@@ -44,8 +42,7 @@ public class Vector {
 	 * @return A double representing the magnitude of this vector
 	 */
 	public double magnitude() {
-		double rawVal = Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ());
-		return Math.round(rawVal * round) / round;
+		return Math.sqrt(this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ());
 	}
 
 	/**
@@ -55,8 +52,7 @@ public class Vector {
 	 * @return A double representing the dot product.
 	 */
 	public double dotProduct(Vector other) {
-		double rawVal = this.getX() * other.getX() + this.getY() * other.getY() + this.getZ() * other.getZ();
-		return Math.round(rawVal * round) / round;
+		return this.getX() * other.getX() + this.getY() * other.getY() + this.getZ() * other.getZ();
 	}
 
 	/**
@@ -74,8 +70,9 @@ public class Vector {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Vector && ((Vector) obj).getX() == this.getX() && ((Vector) obj).getY() == this.getY()
-				&& ((Vector) obj).getZ() == this.getZ();
+		return obj instanceof Vector && Math.abs(((Vector) obj).getX() - this.getX()) < 0.00001
+				&& Math.abs(((Vector) obj).getY() - this.getY()) < 0.00001
+				&& Math.abs(((Vector) obj).getZ() - this.getZ()) < 0.00001;
 	}
 
 	/**
@@ -85,7 +82,8 @@ public class Vector {
 	 * @return A boolean with the result.
 	 */
 	public boolean equalsDir(Vector v) {
-		return v.getX() / this.getX() == v.getY() / this.getY() && v.getY() / this.getY() == v.getZ() / this.getZ();
+		return Math.abs(v.getX() / this.getX() - v.getY() / this.getY()) < 0.00001
+				&& Math.abs(v.getY() / this.getY() - v.getZ() / this.getZ()) < 0.00001;
 	}
 
 	/**
@@ -96,8 +94,7 @@ public class Vector {
 	 * @return A double representing the angle in radians between the vectors.
 	 */
 	public double angleWithVector(Vector v) {
-		double rawVal = Math.acos(dotProduct(v) / (magnitude() * v.magnitude()));
-		return Math.round(rawVal * round) / round;
+		return Math.acos(dotProduct(v) / (magnitude() * v.magnitude()));
 	}
 
 	@Override
