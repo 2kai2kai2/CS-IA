@@ -24,30 +24,30 @@ public class DisplayCanvas extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == e.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_W) {
 			scene.getCamera().addPitch(-10);
-		} else if (e.getKeyCode() == e.VK_A) {
+		} else if (e.getKeyCode() == KeyEvent.VK_A) {
 			scene.getCamera().addYaw(-10);
-		} else if (e.getKeyCode() == e.VK_S) {
+		} else if (e.getKeyCode() == KeyEvent.VK_S) {
 			scene.getCamera().addPitch(10);
-		} else if (e.getKeyCode() == e.VK_D) {
+		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			scene.getCamera().addYaw(10);
-		} else if (e.getKeyCode() == e.VK_I) { // Forward
+		} else if (e.getKeyCode() == KeyEvent.VK_I) { // Forward
 			scene.getCamera().goForward(1);
-		} else if (e.getKeyCode() == e.VK_K) { // Backward
+		} else if (e.getKeyCode() == KeyEvent.VK_K) { // Backward
 			scene.getCamera().goForward(-1);
-		} else if (e.getKeyCode() == e.VK_J) { // Left
+		} else if (e.getKeyCode() == KeyEvent.VK_J) { // Left
 			scene.getCamera().goRight(-1);
-		} else if (e.getKeyCode() == e.VK_L) { // Right
+		} else if (e.getKeyCode() == KeyEvent.VK_L) { // Right
 			scene.getCamera().goRight(1);
-		} else if (e.getKeyCode() == e.VK_U) { // Up
+		} else if (e.getKeyCode() == KeyEvent.VK_U) { // Up
 			scene.getCamera().goUp(1);
-		} else if (e.getKeyCode() == e.VK_M) { // Down
+		} else if (e.getKeyCode() == KeyEvent.VK_M) { // Down
 			scene.getCamera().goUp(-1);
-		} else if (e.getKeyCode() == e.VK_EQUALS) {
-			window.getRenderer().setResScale(window.getRenderer().getResScale() + 0.1);
-		} else if (e.getKeyCode() == e.VK_MINUS) {
-			window.getRenderer().setResScale(window.getRenderer().getResScale() - 0.1);
+		} else if (e.getKeyCode() == KeyEvent.VK_EQUALS) {
+			window.getRenderer().setResScale(window.getRenderer().getResScale() * 1.1);
+		} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+			window.getRenderer().setResScale(window.getRenderer().getResScale() * 0.91);
 		}
 	}
 

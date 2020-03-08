@@ -53,7 +53,7 @@ public class Renderer implements Runnable {
 	}
 
 	private int getCanvasWidth() {
-		return (int) (resScale * canvas.getHeight());
+		return (int) (resScale * canvas.getWidth());
 	}
 
 	@Override
@@ -144,9 +144,11 @@ public class Renderer implements Runnable {
 		long displayStart = System.currentTimeMillis();
 		g.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
 		System.out.println("Display:" + (System.currentTimeMillis() - displayStart) + "ms.");
-		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Camera Location: "
-				+ this.scene.getCamera().getLocation() + " Camera Angle: Yaw=" + this.scene.getCamera().getYaw()
-				+ " Pitch=" + this.scene.getCamera().getPitch() + "\n");
+		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Resolution: ("
+				+ canvas.getWidth() + ", " + canvas.getHeight() + ") scaled " + resScale + " to (" + img.getWidth()
+				+ ", " + img.getHeight() + ") | Camera Location: " + this.scene.getCamera().getLocation()
+				+ " Camera Angle: Yaw=" + this.scene.getCamera().getYaw() + " Pitch="
+				+ this.scene.getCamera().getPitch() + "\n");
 	}
 
 	/**

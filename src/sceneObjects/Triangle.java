@@ -4,13 +4,15 @@ import java.awt.Color;
 
 public class Triangle {
 	private Point[] points;
+	private Material material;
 
-	public Triangle(Point[] points) {
+	public Triangle(Point[] points, Material mat) {
 		this.points = points;
+		this.material = mat;
 	}
 
-	public Triangle(Point p1, Point p2, Point p3) {
-		this(new Point[] { p1, p2, p3 });
+	public Triangle(Point p1, Point p2, Point p3, Material mat) {
+		this(new Point[] { p1, p2, p3 }, mat);
 	}
 
 	public Point getPoint(int pointNum) {
@@ -44,6 +46,10 @@ public class Triangle {
 			return false;
 	}
 
+	public Material getMaterial() {
+		return material;
+	}
+
 	/**
 	 * Gets the normal Vector to this plane
 	 * 
@@ -70,7 +76,7 @@ public class Triangle {
 	 */
 	public Color pointColor(Point p) {
 		if (isPointOnTriangle(p)) {
-			return new Color(255, 255, 255); // TODO: Actually make this work
+			return new Color(material.diffuseR, material.diffuseG, material.diffuseB); // TODO: Actually make this work
 		} else
 			return null;
 	}

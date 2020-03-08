@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class Face {
 
 	private ArrayList<Point> points;
+	private Material mat;
 
-	public Face(ArrayList<Point> points) {
+	public Face(ArrayList<Point> points, Material mat) {
 		this.points = points;
+		this.mat = mat;
 	}
 
 	public boolean isValid() {
@@ -54,7 +56,8 @@ public class Face {
 				// don't have a triangle with the center point twice
 			} else {
 				// Add the triangle with this point, the next point, and the center point
-				triangles.add(new Triangle(points.get(i), points.get((i + 1) % points.size()), points.get(maxIndex)));
+				triangles.add(
+						new Triangle(points.get(i), points.get((i + 1) % points.size()), points.get(maxIndex), mat));
 			}
 		}
 
