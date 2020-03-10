@@ -26,16 +26,7 @@ public class Vector {
 	public Vector(Point p1, Point p2) {
 		this(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ());
 	}
-
-	/**
-	 * A Vector from edge from p2 to p1
-	 * 
-	 * @param edge
-	 */
-	public Vector(Edge edge) {
-		this(edge.getP1(), edge.getP2());
-	}
-
+	
 	/**
 	 * The magnitude of this vector
 	 * 

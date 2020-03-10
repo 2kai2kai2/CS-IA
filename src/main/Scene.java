@@ -14,8 +14,8 @@ public class Scene {
 
 	public Scene() {
 		objs = new ArrayList<Obj3d>();
-		objs.add(Obj3d.newObj(new File("C:\\Users\\2kai2\\OneDrive\\Documents\\GitHub\\IA\\src\\untitled.obj")));
-		camera = new Camera(new Point(0, 0, 0));
+		objs.add(Obj3d.newObj(new File("C:\\Users\\2kai2\\OneDrive\\Documents\\GitHub\\IA\\src\\color.obj")));
+		camera = new Camera(new Point(-10, 0, 0));
 	}
 
 	public Camera getCamera() {

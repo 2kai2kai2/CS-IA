@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Obj3d {
 
 	private ArrayList<Point> points;
-	private ArrayList<Edge> edges;
 	private ArrayList<Face> faces;
 
 	private ArrayList<Material> materials;
@@ -34,14 +33,6 @@ public class Obj3d {
 				return p;
 		}
 		return null;
-	}
-
-	public ArrayList<Edge> getEdges() {
-		return edges;
-	}
-
-	public void addEdge(Edge edge) {
-		this.edges.add(edge);
 	}
 
 	public ArrayList<Face> getFaces() {

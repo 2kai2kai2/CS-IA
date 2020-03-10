@@ -25,13 +25,21 @@ public class Renderer implements Runnable {
 	private Thread thread;
 
 	private final int FPSCAP = 120;
-	private final double resScale = 0.3; // Resolution scaling
+	private double resScale = 0.2; // Resolution scaling
 
 	private long lastMS = 0;
 
 	public Renderer(DisplayCanvas canvas, Scene scene) {
 		this.canvas = canvas;
 		this.scene = scene;
+	}
+
+	public double getResScale() {
+		return resScale;
+	}
+
+	public void setResScale(double res) {
+		this.resScale = Math.min(1, Math.max(0.01, res));
 	}
 
 	/**
