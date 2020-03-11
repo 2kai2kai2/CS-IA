@@ -73,6 +73,8 @@ public class Renderer implements Runnable {
 					graphics = buffer.getDrawGraphics();
 					render(graphics);
 					graphics.dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
 				} finally {
 					buffer.show();
 				}

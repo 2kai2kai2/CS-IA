@@ -16,6 +16,9 @@ public class Material {
 		this.name = name;
 	}
 
+	/**
+	 * A blank constructor for a Material if none is found
+	 */
 	public Material() {
 		this.name = "blank";
 		this.ambientR = 255;

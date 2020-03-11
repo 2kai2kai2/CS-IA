@@ -9,18 +9,60 @@ public class Obj3d {
 
 	private ArrayList<Point> points;
 	private ArrayList<Face> faces;
+	private String fileName;
 
 	private ArrayList<Material> materials;
+	private double x, y, z;
 
 	public Obj3d() {
 		this.points = new ArrayList<Point>();
-		this.edges = new ArrayList<Edge>();
 		this.faces = new ArrayList<Face>();
 		this.materials = new ArrayList<Material>();
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getZ() {
+		return z;
+	}
+
+	public void setZ(double z) {
+		this.z = z;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public ArrayList<Point> getPoints() {
-		return points;
+		ArrayList<Point> translatedPoints = new ArrayList<Point>();
+
+		for (Point p : this.points) {
+			translatedPoints.add(new Point(p.getX() + getX(), p.getY() + getY(), p.getZ() + getX()));
+		}
+
+		return translatedPoints;
 	}
 
 	public void addPoint(Point point) {
@@ -28,7 +70,7 @@ public class Obj3d {
 	}
 
 	public Point getPoint(double x, double y, double z) {
-		for (Point p : this.points) {
+		for (Point p : this.getPoints()) {
 			if (p.getX() == x && p.getY() == y && p.getZ() == z)
 				return p;
 		}
@@ -36,7 +78,12 @@ public class Obj3d {
 	}
 
 	public ArrayList<Face> getFaces() {
-		return faces;
+		ArrayList<Face> translatedFaces = new ArrayList<Face>();
+
+		for (Face f : faces)
+			translatedFaces.add(f.asTranslated(getX(), getY(), getZ()));
+
+		return translatedFaces;
 	}
 
 	public void addFace(Face face) {
@@ -67,6 +114,7 @@ public class Obj3d {
 	 */
 	public static Obj3d newObj(File f) {
 		Obj3d obj = new Obj3d();
+		obj.setFileName(f.getName());
 		try {
 			Scanner s = new Scanner(f);
 			String currentMat = "";

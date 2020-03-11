@@ -17,6 +17,22 @@ public class Face {
 	}
 
 	/**
+	 * Returns a copy of this face translated based on the given translation
+	 * 
+	 * @param x Double amount to translate along the x axis
+	 * @param y Double amount to translate along the y axis
+	 * @param z Double amount to translate along the z axis
+	 * @return A translated copy of the face
+	 */
+	public Face asTranslated(double x, double y, double z) {
+		ArrayList<Point> newPoints = new ArrayList<Point>();
+		for (Point p : this.points)
+			newPoints.add(new Point(p.getX() + x, p.getY() + y, p.getZ() + z));
+		return new Face(newPoints, this.mat);
+
+	}
+
+	/**
 	 * Triangulates the face into Triangles. This is necessary because the face may
 	 * not be on a single plane and often will not contain simple polygons.
 	 * Triangles should be more simple to find intersects for.
