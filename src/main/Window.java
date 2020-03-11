@@ -2,7 +2,7 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -28,6 +28,9 @@ public class Window extends JFrame implements ActionListener {
 	public Window() {
 		this.setSize(500, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("3d Renderer");
+
+		this.setIconImage(new ImageIcon(this.getClass().getResource("/icon.png")).getImage());
 
 		s = new Scene();
 		c = new DisplayCanvas(s, this);

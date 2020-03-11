@@ -136,8 +136,6 @@ public class Obj3d {
 					}
 					readMTL(new File(f.getPath().substring(0, f.getPath().indexOf(f.getName())) + fileName.strip()),
 							obj);
-					for (Material matr : obj.getMaterials())
-						System.out.println(matr.name);
 				} else if (words[0].equals("v")) { // Vertex
 					obj.addPoint(new Point(Double.parseDouble(words[1]), Double.parseDouble(words[2]),
 							Double.parseDouble(words[3])));

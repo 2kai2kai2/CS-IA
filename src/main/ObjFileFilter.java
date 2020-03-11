@@ -13,7 +13,7 @@ public class ObjFileFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return ".obj Files";
 	}
 
 }

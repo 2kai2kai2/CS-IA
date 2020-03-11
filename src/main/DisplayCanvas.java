@@ -25,11 +25,11 @@ public class DisplayCanvas extends Canvas implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_W) {
-			scene.getCamera().addPitch(-10);
+			scene.getCamera().addPitch(10);
 		} else if (e.getKeyCode() == KeyEvent.VK_A) {
 			scene.getCamera().addYaw(-10);
 		} else if (e.getKeyCode() == KeyEvent.VK_S) {
-			scene.getCamera().addPitch(10);
+			scene.getCamera().addPitch(-10);
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			scene.getCamera().addYaw(10);
 		} else if (e.getKeyCode() == KeyEvent.VK_I) { // Forward

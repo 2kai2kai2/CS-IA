@@ -29,9 +29,16 @@ public class Renderer implements Runnable {
 
 	private long lastMS = 0;
 
+	private static final boolean showTimes = false;
+
 	public Renderer(DisplayCanvas canvas, Scene scene) {
 		this.canvas = canvas;
 		this.scene = scene;
+	}
+
+	public void printIfTime(String str) {
+		if (showTimes)
+			System.out.println(str);
 	}
 
 	public double getResScale() {
@@ -93,7 +100,7 @@ public class Renderer implements Runnable {
 		// Create the array of Rays to be traced then rendered
 		long rayAnglesStart = System.currentTimeMillis();
 		Ray[] rs = rayAngles();
-		System.out.println("Ray Angles:" + (System.currentTimeMillis() - rayAnglesStart) + "ms.");
+		printIfTime("Ray Angles:" + (System.currentTimeMillis() - rayAnglesStart) + "ms.");
 
 		// Setup objects for tracing
 		BufferedImage img = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
@@ -106,7 +113,7 @@ public class Renderer implements Runnable {
 				allTris.addAll(face.triangulate());
 			}
 		}
-		System.out.println("Triangulation:" + (System.currentTimeMillis() - triStart) + "ms.");
+		printIfTime("Triangulation:" + (System.currentTimeMillis() - triStart) + "ms.");
 
 		// Ray Tracing
 		long rayTraceStart = System.currentTimeMillis();
@@ -145,20 +152,19 @@ public class Renderer implements Runnable {
 				}
 			}
 		}
-		System.out.println("Ray Tracing:" + (System.currentTimeMillis() - rayTraceStart) + "ms.");
-		System.out.println("	Intersects:" + interSum + "ms.");
-		System.out.println("	Closest Intersect:" + closestSum + "ms.");
-		System.out.println("	Color: " + colorSum + "ms.");
+		printIfTime("Ray Tracing:" + (System.currentTimeMillis() - rayTraceStart) + "ms.");
+		printIfTime("	Intersects:" + interSum + "ms.");
+		printIfTime("	Closest Intersect:" + closestSum + "ms.");
+		printIfTime("	Color: " + colorSum + "ms.");
 
 		// Display and scale up if rendering is scaled down
 		long displayStart = System.currentTimeMillis();
 		g.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-		System.out.println("Display:" + (System.currentTimeMillis() - displayStart) + "ms.");
-		System.out.println("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Resolution: ("
-				+ canvas.getWidth() + ", " + canvas.getHeight() + ") scaled " + resScale + " to (" + img.getWidth()
-				+ ", " + img.getHeight() + ") | Camera Location: " + this.scene.getCamera().getLocation()
-				+ " Camera Angle: Yaw=" + this.scene.getCamera().getYaw() + " Pitch="
-				+ this.scene.getCamera().getPitch() + "\n");
+		printIfTime("Display:" + (System.currentTimeMillis() - displayStart) + "ms.");
+		printIfTime("Rendered in " + (System.currentTimeMillis() - timeStart) + "ms. Resolution: (" + canvas.getWidth()
+				+ ", " + canvas.getHeight() + ") scaled " + resScale + " to (" + img.getWidth() + ", " + img.getHeight()
+				+ ") | Camera Location: " + this.scene.getCamera().getLocation() + " Camera Angle: Yaw="
+				+ this.scene.getCamera().getYaw() + " Pitch=" + this.scene.getCamera().getPitch() + "\n");
 	}
 
 	/**
@@ -173,10 +179,12 @@ public class Renderer implements Runnable {
 		for (int y = 0; y < getCanvasHeight(); y++) {
 			for (int x = 0; x < getCanvasWidth(); x++) {
 				// Calculate the yaw and pitch angles of this ray
-				double yaw = Math.toRadians(cam.getYaw()) + Math.atan((x - getCanvasWidth() / 2.0)
-						/ (getCanvasWidth() / 2.0) * Math.tan(Math.toRadians(cam.getFOV()) / 2));
-				double pitch = Math.toRadians(cam.getPitch() - 90) + Math.atan((y - getCanvasHeight() / 2.0)
-						/ (getCanvasHeight() / 2.0) * Math.tan(Math.toRadians(cam.getFOV()) / 2));
+				double yaw = Math.toRadians(cam.getYaw())
+						- Math.atan((((double) getCanvasWidth() - 2 * x) / (double) getCanvasWidth())
+								* Math.tan(Math.toRadians(cam.getFOV()) / 2));
+				double pitch = Math.toRadians(cam.getPitch() - 90)
+						+ Math.atan((((double) getCanvasHeight() - 2 * y) / (double) getCanvasHeight())
+								* Math.tan(Math.toRadians(cam.getFOV() * getCanvasHeight() / getCanvasWidth() / 2)));
 
 				// Find the vector (length 1) of this ray from the angles
 				double rz = Math.sin(pitch);
